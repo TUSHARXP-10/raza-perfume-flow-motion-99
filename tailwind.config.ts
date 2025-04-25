@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -95,6 +94,19 @@ export default {
           accent: '#FFD700',
           text: '#F8F2E9',
           muted: '#3D2B13'
+        },
+        // Admin panel specific colors
+        admin: {
+          "background": "#1A1F2C",
+          "foreground": "#F8FAFC",
+          "card": "#2A2F3C",
+          "border": "#3A3F4C",
+          "muted": "#4A4F5C",
+          "accent": "#D4AF37",
+          "accent-hover": "#E5C158",
+          "danger": "#E11D48",
+          "success": "#10B981",
+          "warning": "#F59E0B"
         }
       },
       fontFamily: {
