@@ -20,6 +20,7 @@ const CollectionPage: React.FC = () => {
   };
   
   const title = categoryNames[categoryId as keyof typeof categoryNames] || 'Collection';
+  const productCount = products.length;
   
   return (
     <div className={cn(
@@ -35,7 +36,7 @@ const CollectionPage: React.FC = () => {
         <ProductsGrid
           products={products}
           title={title}
-          subtitle={`Explore our complete ${title.toLowerCase()} of fine fragrances`}
+          subtitle={`Explore our complete ${title.toLowerCase()} of fine fragrances (${productCount} products)`}
         />
       </main>
       

@@ -45,13 +45,15 @@ const ProductCategories: React.FC = () => {
   return (
     <div className="relative">
       {categories.map((category, index) => {
-        const products = getProductsByCategory(category.id).slice(0, 6);
+        const allProducts = getProductsByCategory(category.id);
+        const previewProducts = allProducts.slice(0, 6);
+        const totalProducts = allProducts.length;
         
         return (
           <section key={category.id} className={getSectionClass(index)}>
             <ScentPath className="absolute inset-0" particleCount={20} />
             <ProductsGrid
-              products={products}
+              products={previewProducts}
               title={category.name}
               subtitle={category.subtitle}
               featured={true}
@@ -68,7 +70,7 @@ const ProductCategories: React.FC = () => {
                   currentTheme === 'amber' && "bg-amber-primary hover:bg-amber-accent",
                 )}
               >
-                Explore More
+                Explore All {totalProducts} Products
                 <ArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
