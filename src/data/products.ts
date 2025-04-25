@@ -1,3 +1,4 @@
+
 export interface Product {
   id: string;
   name: string;
@@ -871,5 +872,15 @@ const products: Product[] = [
     stock: 12
   }
 ];
+
+// Function to get products by category
+export const getProductsByCategory = (category: string): Product[] => {
+  return products.filter(product => product.category === category);
+};
+
+// Function to get featured products
+export const getFeaturedProducts = (): Product[] => {
+  return products.filter(product => product.featured);
+};
 
 export { products };
