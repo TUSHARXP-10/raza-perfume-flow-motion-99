@@ -26,12 +26,14 @@ const FloatingElement: React.FC<FloatingElementProps> = ({
         animationFillMode: 'both',
       }}
     >
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-${translateY}px); }
-        }
-      `}</style>
+      <style>
+        {`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-${translateY}px); }
+          }
+        `}
+      </style>
       {children}
     </div>
   );
