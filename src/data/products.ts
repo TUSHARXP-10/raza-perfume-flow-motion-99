@@ -862,4 +862,14 @@ const products: Product[] = [
     category: "luxury",
     featured: false,
     new: false,
-    topNotes: ["Bergamot", "
+    topNotes: ["Bergamot", "Saffron", "Cardamom"],
+    middleNotes: ["Amber", "Vanilla", "Cinnamon"],
+    baseNotes: ["Sandalwood", "Musk", "Tonka Bean"],
+    size: "75ml",
+    rating: 4.9,
+    reviews: 30,
+    stock: 12
+  }
+];
+
+export { products };
