@@ -1,7 +1,11 @@
 
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useNavigate } from 'react-router-dom';
 import ProductsGrid from './ProductsGrid';
+import { getProductsByCategory } from '@/data/products';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ScentPath from '../animations/ScentPath';
 
@@ -20,16 +24,12 @@ const categories = [
     id: 'luxury',
     name: 'Luxury Collection',
     subtitle: 'Exclusive scents crafted with rare ingredients'
-  },
-  {
-    id: 'limited',
-    name: 'Limited Edition',
-    subtitle: 'Unique compositions for the true collector'
   }
 ];
 
 const ProductCategories: React.FC = () => {
   const { currentTheme } = useTheme();
+  const navigate = useNavigate();
 
   const getSectionClass = (index: number) => {
     return cn(
@@ -44,17 +44,37 @@ const ProductCategories: React.FC = () => {
 
   return (
     <div className="relative">
-      {categories.map((category, index) => (
-        <section key={category.id} className={getSectionClass(index)}>
-          <ScentPath className="absolute inset-0" particleCount={20} />
-          <ProductsGrid
-            products={[]} // You'll need to fetch products based on category
-            title={category.name}
-            subtitle={category.subtitle}
-            featured={true}
-          />
-        </section>
-      ))}
+      {categories.map((category, index) => {
+        const products = getProductsByCategory(category.id).slice(0, 6);
+        
+        return (
+          <section key={category.id} className={getSectionClass(index)}>
+            <ScentPath className="absolute inset-0" particleCount={20} />
+            <ProductsGrid
+              products={products}
+              title={category.name}
+              subtitle={category.subtitle}
+              featured={true}
+            />
+            
+            <div className="container mx-auto px-4 text-center mt-12">
+              <Button
+                onClick={() => navigate(`/collection/${category.id}`)}
+                className={cn(
+                  "group text-lg px-8 py-6 transition-all duration-500",
+                  currentTheme === 'regal' && "bg-regal-primary hover:bg-regal-accent",
+                  currentTheme === 'mystic' && "bg-mystic-primary hover:bg-mystic-accent",
+                  currentTheme === 'bloom' && "bg-bloom-primary hover:bg-bloom-accent",
+                  currentTheme === 'amber' && "bg-amber-primary hover:bg-amber-accent",
+                )}
+              >
+                Explore More
+                <ArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
+              </Button>
+            </div>
+          </section>
+        );
+      })}
     </div>
   );
 };
