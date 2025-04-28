@@ -7,9 +7,13 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
+import { UserAuthProvider } from "@/contexts/UserAuthContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CollectionPage from "./pages/CollectionPage";
+import SignIn from "./pages/auth/SignIn";
+import SignUp from "./pages/auth/SignUp";
+import Shop from "./pages/Shop";
 
 // Admin routes
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -41,12 +45,14 @@ const App = () => (
       <ThemeProvider>
         <CartProvider>
           <AdminAuthProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+            <UserAuthProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
               <Routes>
                 {/* Main website routes */}
                 <Route path="/" element={<Index />} />
+                <Route path="/shop" element={<Shop />} />
                 <Route path="/collection/:categoryId" element={<CollectionPage />} />
                 
                 {/* Admin routes */}
@@ -98,6 +104,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
+            </UserAuthProvider>
           </AdminAuthProvider>
         </CartProvider>
       </ThemeProvider>

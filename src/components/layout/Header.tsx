@@ -1,17 +1,22 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useCart } from '@/contexts/CartContext';
+import { useUserAuth } from '@/contexts/UserAuthContext';
 import { SearchIcon, ShoppingCart, User, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import UserMenu from './UserMenu';
 
 const Header: React.FC = () => {
   const { currentTheme } = useTheme();
   const { totalItems } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const { user } = useUserAuth();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -90,11 +95,66 @@ const Header: React.FC = () => {
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          <Link to="/" className="text-sm uppercase tracking-wider font-medium hover:opacity-80 transition-opacity">Home</Link>
-          <Link to="/shop" className="text-sm uppercase tracking-wider font-medium hover:opacity-80 transition-opacity">Shop</Link>
-          <Link to="/collections" className="text-sm uppercase tracking-wider font-medium hover:opacity-80 transition-opacity">Collections</Link>
-          <Link to="/about" className="text-sm uppercase tracking-wider font-medium hover:opacity-80 transition-opacity">About</Link>
-          <Link to="/contact" className="text-sm uppercase tracking-wider font-medium hover:opacity-80 transition-opacity">Contact</Link>
+          <Link 
+            to="/" 
+            className={cn(
+              "text-sm uppercase tracking-wider font-medium relative group",
+              "after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0",
+              "after:transition-all after:duration-300 hover:after:w-full",
+              currentTheme === 'regal' && "after:bg-regal-accent text-regal-text hover:text-regal-accent",
+              currentTheme === 'mystic' && "after:bg-mystic-accent text-mystic-text hover:text-mystic-accent",
+              currentTheme === 'bloom' && "after:bg-bloom-accent text-bloom-text hover:text-bloom-accent",
+              currentTheme === 'amber' && "after:bg-amber-accent text-amber-text hover:text-amber-accent"
+            )}
+          >Home</Link>
+          <Link 
+            to="/shop" 
+            className={cn(
+              "text-sm uppercase tracking-wider font-medium relative group",
+              "after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0",
+              "after:transition-all after:duration-300 hover:after:w-full",
+              currentTheme === 'regal' && "after:bg-regal-accent text-regal-text hover:text-regal-accent",
+              currentTheme === 'mystic' && "after:bg-mystic-accent text-mystic-text hover:text-mystic-accent",
+              currentTheme === 'bloom' && "after:bg-bloom-accent text-bloom-text hover:text-bloom-accent",
+              currentTheme === 'amber' && "after:bg-amber-accent text-amber-text hover:text-amber-accent"
+            )}
+          >Shop</Link>
+          <Link 
+            to="/collections" 
+            className={cn(
+              "text-sm uppercase tracking-wider font-medium relative group",
+              "after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0",
+              "after:transition-all after:duration-300 hover:after:w-full",
+              currentTheme === 'regal' && "after:bg-regal-accent text-regal-text hover:text-regal-accent",
+              currentTheme === 'mystic' && "after:bg-mystic-accent text-mystic-text hover:text-mystic-accent",
+              currentTheme === 'bloom' && "after:bg-bloom-accent text-bloom-text hover:text-bloom-accent",
+              currentTheme === 'amber' && "after:bg-amber-accent text-amber-text hover:text-amber-accent"
+            )}
+          >Collections</Link>
+          <Link 
+            to="/about" 
+            className={cn(
+              "text-sm uppercase tracking-wider font-medium relative group",
+              "after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0",
+              "after:transition-all after:duration-300 hover:after:w-full",
+              currentTheme === 'regal' && "after:bg-regal-accent text-regal-text hover:text-regal-accent",
+              currentTheme === 'mystic' && "after:bg-mystic-accent text-mystic-text hover:text-mystic-accent",
+              currentTheme === 'bloom' && "after:bg-bloom-accent text-bloom-text hover:text-bloom-accent",
+              currentTheme === 'amber' && "after:bg-amber-accent text-amber-text hover:text-amber-accent"
+            )}
+          >About</Link>
+          <Link 
+            to="/contact" 
+            className={cn(
+              "text-sm uppercase tracking-wider font-medium relative group",
+              "after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0",
+              "after:transition-all after:duration-300 hover:after:w-full",
+              currentTheme === 'regal' && "after:bg-regal-accent text-regal-text hover:text-regal-accent",
+              currentTheme === 'mystic' && "after:bg-mystic-accent text-mystic-text hover:text-mystic-accent",
+              currentTheme === 'bloom' && "after:bg-bloom-accent text-bloom-text hover:text-bloom-accent",
+              currentTheme === 'amber' && "after:bg-amber-accent text-amber-text hover:text-amber-accent"
+            )}
+          >Contact</Link>
         </nav>
         
         {/* Icons */}
@@ -102,9 +162,16 @@ const Header: React.FC = () => {
           <button aria-label="Search" className="hover:opacity-80 transition-opacity">
             <SearchIcon className={getIconClass()} />
           </button>
-          <Link to="/account" aria-label="Account" className="hover:opacity-80 transition-opacity">
-            <User className={getIconClass()} />
-          </Link>
+          <div className="relative" ref={userMenuRef}>
+            <button
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              className="hover:opacity-80 transition-opacity focus:outline-none"
+              aria-label="Account"
+            >
+              <User className={getIconClass()} />
+            </button>
+            <UserMenu isOpen={isUserMenuOpen} onClose={() => setIsUserMenuOpen(false)} />
+          </div>
           <Link to="/cart" aria-label="Cart" className="hover:opacity-80 transition-opacity relative">
             <ShoppingCart className={getIconClass()} />
             {totalItems > 0 && (
